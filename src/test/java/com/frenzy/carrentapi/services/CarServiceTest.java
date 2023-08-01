@@ -5,6 +5,7 @@ import com.frenzy.carrentapi.exceptions.BadRequestException;
 import com.frenzy.carrentapi.models.cars.Car;
 import com.frenzy.carrentapi.models.cars.Category;
 import com.frenzy.carrentapi.repositories.CarRepository;
+import com.frenzy.carrentapi.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +18,6 @@ import java.math.BigDecimal;
 
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -26,11 +26,14 @@ class CarServiceTest {
 
     @Mock
     private CarRepository carRepository;
+
+    @Mock
+    private UserRepository userRepository;
     private CarService underTest;
 
     @BeforeEach
     void setUp(){
-        underTest = new CarService(carRepository);
+        underTest = new CarService(carRepository, userRepository);
     }
 
     @Test
@@ -60,7 +63,7 @@ class CarServiceTest {
 
         Car capturedCar = carArgumentCaptor.getValue();
 
-        assertThat(capturedCar).isEqualTo(new Car(carDTO));
+        assertThat(capturedCar).isEqualTo(new Car(carDTO, userRepository.getReferenceById(carDTO.hostId())));
     }
 
     @Test

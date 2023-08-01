@@ -1,11 +1,14 @@
 package com.frenzy.carrentapi.models.cars;
 
 import com.frenzy.carrentapi.dto.cars.*;
+import com.frenzy.carrentapi.models.users.User;
+import com.frenzy.carrentapi.repositories.UserRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
@@ -18,10 +21,14 @@ import java.math.BigDecimal;
 @Table(name="cars")
 public class Car {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long hostId;
+
+    @ManyToOne
+    @JoinColumn(name="host_id")
+    private User host;
 
     @Column(name="brand")
     private String brand;
@@ -59,13 +66,14 @@ public class Car {
 
     private boolean active;
 
-    public Car(RegisterCarDTO data){
-        this.hostId = data.hostId();
+    public Car(RegisterCarDTO data, User host){
+        this.host = host;
         this.brand = data.brand();
         this.model = data.model();
         this.description = data.description();
         this.category = data.category();
         this.color = data.color();
+        this.review = 0;
         this.seats = data.seats();
         this.licensePlate = data.licensePlate();
         this.dailyPrice = data.dailyPrice();

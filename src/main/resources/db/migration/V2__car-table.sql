@@ -1,6 +1,6 @@
 create table cars (
     id bigint not null auto_increment,
-    host_id int not null,
+    host_id bigint not null,
     brand varchar(255) not null,
     model varchar(255) not null,
     description varchar(255),
@@ -14,6 +14,8 @@ create table cars (
     lat DECIMAL(10, 8) NOT NULL,
     lng DECIMAL(11, 8) NOT NULL,
     active tinyint,
+
+    constraint fk_car_host_id foreign key(host_id) references users(id),
 
     primary key(id)
 );

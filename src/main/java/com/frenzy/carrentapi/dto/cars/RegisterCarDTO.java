@@ -1,6 +1,7 @@
 package com.frenzy.carrentapi.dto.cars;
 
 import com.frenzy.carrentapi.models.cars.Category;
+import com.frenzy.carrentapi.models.users.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
